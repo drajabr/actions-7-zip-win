@@ -89,4 +89,4 @@ runs:
         
         $cmd = "& `"$env:7zEXE`" $options `"$out`" `"$in`""
         Write-Host "Running: $cmd"
-        Invoke-Expression $cmd
+        Invoke-Expression &$cmd
