@@ -78,7 +78,6 @@ runs:
     - name: Execute 7-Zip (if input specified)
       if: runner.os == 'Windows' && inputs.in != ''
       shell: powershell
-      working-directory: ${{ github.workspace }}\7-Zip
       run: |
         $in = "${{ inputs.in }}"
         $options = "${{ inputs.options }}"
