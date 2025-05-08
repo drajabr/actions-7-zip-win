@@ -16,7 +16,7 @@ inputs:
     required: false
   options:
     description: Options passed to 7z (default "a -t7z")
-    default: a -t7z
+    default: a -tzip
 
 runs:
   using: composite
@@ -82,7 +82,11 @@ runs:
         $in = "${{ inputs.in }}"
         $options = "${{ inputs.options }}"
         $out = if ([string]::IsNullOrWhiteSpace("${{ inputs.out }}")) { "$in.7z" } else { "${{ inputs.out }}" }
-
+        
+        # Replace -sfx7z.sfx with full path to actual SFX module
+        $sfxModule = Join-Path $env:WORKING_DIRECTORY "7-Zip\7z.sfx"
+        $options = $options -replace '-sfx7z\.sfx', "-sfx`"$sfxModule`""
+        
         $cmd = "& `"$env:7zEXE`" $options `"$out`" `"$in`""
         Write-Host "Running: $cmd"
         Invoke-Expression $cmd
