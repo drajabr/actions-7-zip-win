@@ -9,7 +9,7 @@ inputs:
     description: release tag
     default: latest
 
-  run:
+  excute:
     description: whether to run the compression step (true/false)
     default: "false"
     
@@ -192,7 +192,7 @@ runs:
       run: echo "${{ runner.temp }}/7-Zip" >> $GITHUB_PATH
       
     - name: Excute 7-Zip command
-      if: runner.os == 'Windows' && inputs.run == 'true'
+      if: runner.os == 'Windows' && inputs.excute == 'true'
       shell: powershell
       run: |
         $in = "${{ inputs.in }}"
