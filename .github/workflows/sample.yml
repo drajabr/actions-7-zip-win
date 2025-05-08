@@ -21,7 +21,6 @@ jobs:
     - name: test excute with options
       uses: drajabr/actions-7-zip-win@main
       with:
-        excute: true
         in: README.md
         out: README.exe
         options: a -sfx

@@ -8,13 +8,9 @@ inputs:
   tag:
     description: release tag
     default: latest
-
-  excute:
-    description: whether to run the compression step (true/false)
-    default: "false"
     
   in:
-    description: input file or directory to compress
+    description: input file or directory to compress (Optional, will just download if unspecfied)
     required: false
 
   out:
@@ -192,7 +188,7 @@ runs:
       run: echo "${{ runner.temp }}/7-Zip" >> $GITHUB_PATH
       
     - name: Excute 7-Zip command
-      if: runner.os == 'Windows' && inputs.excute == 'true'
+      if: runner.os == 'Windows' && !(inputs.in == '')
       shell: powershell
       run: |
         $in = "${{ inputs.in }}"
