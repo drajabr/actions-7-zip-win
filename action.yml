@@ -87,6 +87,6 @@ runs:
         $sfxModule = Join-Path $env:WORKING_DIRECTORY "7-Zip\7z.sfx"
         $options = $options -replace '-sfx7z\.sfx', "-sfx`"$sfxModule`""
         
-        $cmd = "$env:7zEXE`" $options `"$out`" `"$in`""
+        $cmd = "& `"$env:7zEXE`" $options `"$out`" `"$in`""
         Write-Host "Running: $cmd"
-        Invoke-Expression &$cmd
+        Invoke-Expression $cmd
