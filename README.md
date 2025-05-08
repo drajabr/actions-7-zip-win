@@ -1,5 +1,5 @@
 # Setup 7-Zip
-This action downloads, unpacks, and configures 7-Zip for use in GitHub Actions workflows. 7-Zip is a free and open-source file archiver. 7-Zip is unpacked in the **same working directory under \7-Zip.**
+This action downloads, and unpacks 7-Zip in job runner temp folder to use it. 7-Zip is a free and open-source file archiver. 7-Zip is unpacked in the **same working directory under \7-Zip.**
 
 Optionally you can use it in one step to excute 7z command to create archive/sfx or decompress files
 
