@@ -13,8 +13,8 @@ This works for **WINDOWS RUNNERS ONLY**, I stripped the other parts as I'm not u
 - uses: drajabr/actions-7-zip-win
   with:
     tag: ""                 # Optional > default: latest > 7-Zip release tag from its GitHub Releases page e.g. 24.07.
-    in: ./dist              # Optional > if you want to excute, else it just downloads 7z and adds 7z command to PATH
-    out: ./build/dist.zip   # Optional > default: same as input file name
+    in: ${{ github.workspace }}\dist              # Optional > if you want to excute, else it just downloads 7z and adds 7z command to PATH
+    out: ${{ github.workspace }}\build\dist.zip   # Optional > default: same as input file name
     options: a -tzip        # Optional > default: add input to .zip archive
 ```
 <!-- end usage -->
