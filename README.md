@@ -1,10 +1,10 @@
-[![Test download and exution](https://github.com/drajabr/actions-7-zip-win/actions/workflows/sample.yml/badge.svg)](https://github.com/drajabr/actions-7-zip-win/actions/workflows/sample.yml)
-
 # Setup 7-Zip
-
 This action downloads, unpacks, and configures 7-Zip for use in GitHub Actions workflows. 7-Zip is a free and open-source file archiver. 7-Zip is unpacked under the temporary directory of a runner.
 
+Optionally you can use it in one step to excute 7z command to create archive/sfx or decompress files
+
 # Usage
+[![Test download and exution](https://github.com/drajabr/actions-7-zip-win/actions/workflows/sample.yml/badge.svg)](https://github.com/drajabr/actions-7-zip-win/actions/workflows/sample.yml)
 
 <!-- start usage -->
 ```yaml
