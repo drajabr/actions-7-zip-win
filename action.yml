@@ -22,7 +22,7 @@ inputs:
     required: false
 
   options:
-    description: options passed to 7z (default: "a -t7z")
+    description: options passed to 7z (default "a -t7z")
     default: a -t7z
 
     
