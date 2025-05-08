@@ -38,73 +38,65 @@ runs:
       id: win32_download_7z
       if: runner.os == 'Windows'
       shell: powershell
-      working-directory: ${{ env.WORKING_DIRECTORY }}
       run: |
+        $wd = "$env:WORKING_DIRECTORY"
+        Set-Location -Path $wd
+    
         # resolve arch
         $arch = $env:PROCESSOR_ARCHITECTURE.ToLower()
-
-        if ($arch -eq "amd64")
-        {
-          $arch = "x64"
-        }
-
-        # stub resolve ext
+        if ($arch -eq "amd64") { $arch = "x64" }
+    
         $ext = "exe"
-
-        # build a var for testing jq response
         $name_wildcard_ext = "7z*.$ext"
         $name_wildcard_arch_ext = "7z*-$arch.$ext"
-
-        # build headers
+    
         $headers = @{
           "Authorization" = "Bearer $env:token"
           "Content-Type"  = "application/json"
         }
-
-        # build uri
-        $uri = if ($env:tag -eq "latest")
-        {
+    
+        $uri = if ($env:tag -eq "latest") {
           "https://api.github.com/repos/ip7z/7zip/releases/latest"
+        } else {
+          "https://api.github.com/repos/ip7z/7zip/releases/tags/$($env:tag)"
         }
-        else
-        {
-          "https://api.github.com/repos/ip7z/7zip/releases/tags/$env:tag"
-        }
-
-        # download 7-Zip
+    
+        Write-Host "Fetching 7-Zip release from $uri"
         $response = Invoke-RestMethod -Uri $uri -Headers $headers
         $assets = $response.assets | Where-Object { $_.name -like $name_wildcard_ext }
-
+    
         $obj = $assets | Where-Object { $_.name -like $name_wildcard_arch_ext }
-        if (-not $obj)
-        {
+        if (-not $obj) {
           $obj = $assets | Where-Object { $_.name -notlike $name_wildcard_arch_ext }
         }
-
-        Invoke-WebRequest -Uri $obj.browser_download_url -OutFile $obj.name -Headers $headers
-
+    
+        $outputFile = "$wd\$($obj.name)"
+        Write-Host "Downloading $($obj.name) to $outputFile"
+        Invoke-WebRequest -Uri $obj.browser_download_url -OutFile $outputFile -Headers $headers
+    
         "exe=$($obj.name)" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-
       env:
         token: ${{ inputs.token }}
         tag: ${{ inputs.tag }}
 
-    # TODO(mmacieje): `&` in powershell case does not do it here, unforunately
     - name: unpack 7-Zip
       if: runner.os == 'Windows'
-      shell: cmd
-      working-directory: ${{ env.WORKING_DIRECTORY }}
-      run: call ${{ steps.win32_download_7z.outputs.exe }} /S /D=${{ env.WORKING_DIRECTORY }}\7-Zip
-      
+      shell: powershell
+      run: |
+        $exe = "${{ steps.win32_download_7z.outputs.exe }}"
+        $dir = "$env:WORKING_DIRECTORY\7-Zip"
+        Write-Host "Installing: $exe to $dir"
+        & "$env:WORKING_DIRECTORY\$exe" /S /D=$dir
     - name: Excute 7-Zip command
       if: runner.os == 'Windows' && !(inputs.in == '')
       shell: powershell
-      working-directory: ${{ env.WORKING_DIRECTORY }}
       run: |
+        $wd = "$env:WORKING_DIRECTORY"
         $in = "${{ inputs.in }}"
         $options = "${{ inputs.options }}"
         $out = if ([string]::IsNullOrWhiteSpace("${{ inputs.out }}")) { "$in.7z" } else { "${{ inputs.out }}" }
-
-        $cmd = "7z $options `"$out`" `"$in`""
+    
+        $exe = "$wd\7-Zip\7z.exe"
+        $cmd = "& `"$exe`" $options `"$out`" `"$in`""
         Write-Host "Running: $cmd"
         Invoke-Expression $cmd
