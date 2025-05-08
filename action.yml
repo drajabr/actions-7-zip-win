@@ -200,5 +200,6 @@ runs:
           $out = "${{ inputs.out }}"
         }
 
-        Write-Host "Compressing: $in → $out with options: $options"
+        Write-Host "Compressing: $in to $out with options: $options"
+        Write-Host "7z $options $out $in"
         7z $options "`"$out`"" "`"$in`""
