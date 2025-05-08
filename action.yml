@@ -15,7 +15,7 @@ inputs:
     description: Output archive path (optional, defaults to <in>.7z)
     required: false
   options:
-    description: Options passed to 7z (default: "a -t7z")
+    description: Options passed to 7z (default "a -t7z")
     default: a -t7z
 
 runs:
