@@ -25,3 +25,7 @@ jobs:
         in: README.md
         out: README.exe
         options: a -sfx
+
+    - name: check excution
+      shell: cmd
+      run: Dir
