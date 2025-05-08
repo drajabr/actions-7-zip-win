@@ -24,7 +24,7 @@ runs:
     - name: Set WORKING_DIRECTORY env var
       shell: powershell
       run: |
-        $cwd = ${{ runner.temp }}
+        $cwd = "${{ runner.temp }}"
         "WORKING_DIRECTORY=$cwd" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
     - name: Download 7-Zip binary
