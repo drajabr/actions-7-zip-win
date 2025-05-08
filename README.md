@@ -1,10 +1,12 @@
 # Setup 7-Zip
-This action downloads, unpacks, and configures 7-Zip for use in GitHub Actions workflows. 7-Zip is a free and open-source file archiver. 7-Zip is unpacked under the temporary directory of a runner.
+This action downloads, unpacks, and configures 7-Zip for use in GitHub Actions workflows. 7-Zip is a free and open-source file archiver. 7-Zip is unpacked in the **same working directory under \7-Zip.**
 
 Optionally you can use it in one step to excute 7z command to create archive/sfx or decompress files
 
 # Usage
 [![Test download and exution](https://github.com/drajabr/actions-7-zip-win/actions/workflows/sample.yml/badge.svg)](https://github.com/drajabr/actions-7-zip-win/actions/workflows/sample.yml)
+
+This works for **WINDOWS RUNNERS ONLY**, I stripped the other parts as I'm not using them and I don't have the ability to maintain them
 
 <!-- start usage -->
 ```yaml
@@ -17,15 +19,7 @@ Optionally you can use it in one step to excute 7z command to create archive/sfx
 ```
 <!-- end usage -->
 
-This action appends 7-Zip to a temporary PATH file, so doing this:
-
-```
-7z a -t7z {dst}.7z {src}
-```
-
-Should do just fine.
-
-Optionally, for **WINDOWS RUNNER ONLY** specify `in` option to excute 7zip command with your in/options/out combinations.
+Optionally, specify `in` option to excute 7zip command with your in/options/out combinations.
 
 Refer to [documentation](https://documentation.help/7-Zip/), or use [@axelstudios/7-Zip Command Line Reference Wizard](https://axelstudios.github.io/7z/#!/) to build your options.
 
