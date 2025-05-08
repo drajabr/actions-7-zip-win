@@ -28,3 +28,7 @@ jobs:
     - name: check excution
       shell: cmd
       run: Dir
+
+    - name: basic command run
+      shell: cmd
+      run: 7z a -sfx Readme.exe README.md
