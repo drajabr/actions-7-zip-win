@@ -193,13 +193,8 @@ runs:
       run: |
         $in = "${{ inputs.in }}"
         $options = "${{ inputs.options }}"
+        $out = if ([string]::IsNullOrWhiteSpace("${{ inputs.out }}")) { "$in.7z" } else { "${{ inputs.out }}" }
 
-        if ([string]::IsNullOrWhiteSpace("${{ inputs.out }}")) {
-          $out = "$in.7z"
-        } else {
-          $out = "${{ inputs.out }}"
-        }
-
-        Write-Host "Compressing: $in to $out with options: $options"
-        Write-Host "7z $options $out $in"
-        7z $options "`"$out`"" "`"$in`""
+        $cmd = "7z $options `"$out`" `"$in`""
+        Write-Host "Running: $cmd"
+        Invoke-Expression $cmd
