@@ -9,6 +9,23 @@ inputs:
     description: release tag
     default: latest
 
+  run:
+    description: whether to run the compression step (true/false)
+    default: "false"
+    
+  in:
+    description: input file or directory to compress
+    required: false
+
+  out:
+    description: output archive path (optional, defaults to <in>.7z)
+    required: false
+
+  options:
+    description: options passed to 7z (default: "a -t7z")
+    default: a -t7z
+
+    
 runs:
   using: composite
   steps:
@@ -173,3 +190,19 @@ runs:
       if: runner.os == 'Linux' || runner.os == 'macOS'
       shell: bash
       run: echo "${{ runner.temp }}/7-Zip" >> $GITHUB_PATH
+      
+    - name: Excute 7-Zip command
+      if: runner.os == 'Windows' && inputs.run == 'true'
+      shell: powershell
+      run: |
+        $in = "${{ inputs.in }}"
+        $options = "${{ inputs.options }}"
+
+        if ([string]::IsNullOrWhiteSpace("${{ inputs.out }}")) {
+          $out = "$in.7z"
+        } else {
+          $out = "${{ inputs.out }}"
+        }
+
+        Write-Host "Compressing: $in → $out with options: $options"
+        7z $options "`"$out`"" "`"$in`""
