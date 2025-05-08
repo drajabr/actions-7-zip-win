@@ -1,4 +1,4 @@
-name: test setup 7-Zip
+name: test setup and excution
 
 on:
   push
